@@ -1,0 +1,54 @@
+ext {
+
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: "26.0.2",
+            minSdkVersion    : 16,
+            targetSdkVersion : 25,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+    dependVersion = [
+            junit:"4.12",
+            support         : "27.1.0",
+            constraintlayout: "1.0.2",
+            gson            : "2.8.2",
+            greendao        : "3.2.2",
+            sqlcipher       : "3.5.6",
+            easypermissions : "1.2.0",
+            eventbus        : "3.1.1",
+            LoadingDialog   : "v1.0.4",
+            poi:"3.16",
+            annotations:"25.3.0"
+    ]
+
+    dependencies = [
+            // ------------- Android -------------
+            appcompatV7     : "com.android.support:appcompat-v7:${dependVersion.support}",
+            recyclerviewV7  : "com.android.support:recyclerview-v7:${dependVersion.support}",
+            constraintLayout: "com.android.support.constraint:constraint-layout:${dependVersion.constraintlayout}",
+            junit:"junit:junit:${dependVersion.junit}",
+            annotations:"com.android.support:support-annotations:${dependVersion.annotations}",
+
+            // ------------- json解析 -------------
+            gson            : "com.google.code.gson:gson:${dependVersion.gson}",
+
+            // ------------- 数据库 -------------
+            greendao        : "org.greenrobot:greendao:${dependVersion.greendao}",
+            sqlcipher       : "net.zetetic:android-database-sqlcipher:${dependVersion.sqlcipher}",
+
+            // ------------- Android 6.0权限动态申请 -------------
+            easypermissions : "pub.devrel:easypermissions:${dependVersion.easypermissions}",
+
+            // -------------EventBus-------------
+            eventbus        : "org.greenrobot:eventbus:${dependVersion.eventbus}",
+
+            // -------------进度条-------------
+            LoadingDialog   : "com.github.ForgetAll:LoadingDialog:${dependVersion.LoadingDialog}",
+
+            // -------------poi Excel-------------
+            poi:"org.apache.poi:poi:${dependVersion.poi}",
+
+    ]
+}

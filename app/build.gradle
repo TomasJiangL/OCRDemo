@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        applicationId "com.resmed.liangj.ocr"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+//配置greenDao
+greendao {
+    schemaVersion 1
+    daoPackage 'com.resmed.liangj.ocr.greendao'
+    targetGenDir 'src/main/java'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/ocr-sdk.jar')
+    implementation project(':ocr_ui')
+    // SQLiteToExcel
+    implementation project(':sqlitetoexcel')
+
+    implementation rootProject.ext.dependencies.appcompatV7
+    implementation rootProject.ext.dependencies.recyclerviewV7
+    implementation rootProject.ext.dependencies.constraintLayout
+
+    compile rootProject.ext.dependencies.gson
+
+    // add library
+    compile rootProject.ext.dependencies.greendao
+    // This is only needed if you want to use encrypted databases
+    compile rootProject.ext.dependencies.sqlcipher
+
+    // Android 6.0权限动态申请
+    implementation rootProject.ext.dependencies.easypermissions
+
+    // EventBus
+    implementation rootProject.ext.dependencies.eventbus
+
+    // 进度条
+    implementation rootProject.ext.dependencies.LoadingDialog
+}
