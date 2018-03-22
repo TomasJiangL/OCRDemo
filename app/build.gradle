@@ -50,5 +50,5 @@ dependencies {
     implementation rootProject.ext.dependencies.eventbus
 
     // 进度条
-    implementation rootProject.ext.dependencies.LoadingDialog
+    implementation rootProject.ext.dependencies.loadingdialog
 }

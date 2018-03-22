@@ -18,7 +18,7 @@ ext {
             sqlcipher       : "3.5.6",
             easypermissions : "1.2.0",
             eventbus        : "3.1.1",
-            LoadingDialog   : "v1.0.4",
+            loadingdialog   : "v1.0.4",
             poi:"3.16",
             annotations:"25.3.0"
     ]
@@ -45,7 +45,7 @@ ext {
             eventbus        : "org.greenrobot:eventbus:${dependVersion.eventbus}",
 
             // -------------进度条-------------
-            LoadingDialog   : "com.github.ForgetAll:LoadingDialog:${dependVersion.LoadingDialog}",
+            loadingdialog   : "com.github.ForgetAll:LoadingDialog:${dependVersion.loadingdialog}",
 
             // -------------poi Excel-------------
             poi:"org.apache.poi:poi:${dependVersion.poi}",
