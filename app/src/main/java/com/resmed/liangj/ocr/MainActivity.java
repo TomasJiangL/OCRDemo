@@ -131,10 +131,6 @@ public class MainActivity extends BaseActivity {
         public void onDeviceClick(int position) {
             Device device = deviceAdapter.getDevice(position);
             Log.d(Logger.LOGTAG, device.toString());
-//            Long deviceId = device.getId();
-//            deviceDao.deleteByKey(deviceId);
-//            Log.d("DaoExample", "Deleted note, ID: " + deviceId);
-//            updateDevices();
         }
     };
 
