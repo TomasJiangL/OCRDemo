@@ -1,25 +1,30 @@
 package com.resmed.liangj.ocr;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.Toast;
+import android.support.v7.app.AlertDialog;
 
 import com.resmed.liangj.ocr.app.BaseActivity;
-import com.resmed.liangj.ocr.util.Logger;
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.util.List;
-
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by LiangJ on 12/03/2018.
  */
 
 public class MultiplePermissionActivity extends BaseActivity {
+    private RxPermissions rxPermissions;
+    private boolean showPermissionDialog = false;
+    private String[] permissionString = new String[]{Manifest.permission.READ_CONTACTS,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,49 +37,53 @@ public class MultiplePermissionActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    private static final String[] STORAGE_AND_CONTACTS =
-            {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_CONTACTS};
-
-    private static final int RC_STORAGE_CONTACTS_PERM = 124;
-    private boolean hasLocationAndContactsPermissions() {
-        return EasyPermissions.hasPermissions(this, STORAGE_AND_CONTACTS);
-    }
-
     public void storageAndContactsTask() {
-        if (hasLocationAndContactsPermissions()) {
-            // Have permissions, do the thing!
-
-        } else {
-            // Ask for both permissions
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_storage_contacts),
-                    RC_STORAGE_CONTACTS_PERM,
-                    STORAGE_AND_CONTACTS);
-        }
+        rxPermissions = new RxPermissions(this);
+        // requestEachCombined 多个权限请求的话accept permission.granted 也只回调一次
+        rxPermissions.requestEachCombined(permissionString).subscribe(new Consumer<Permission>() {
+            @Override
+            public void accept(Permission permission) throws Exception {
+                if (permission.granted) {
+                    // permission.name is granted !
+                } else if (permission.shouldShowRequestPermissionRationale) {
+                    // Denied permission without ask never again
+                    if (!showPermissionDialog) showMissingPermissionDialog();
+                } else {
+                    // Denied permission with ask never again  Need to go to the settings
+                    if (!showPermissionDialog) showMissingPermissionDialog();
+                }
+            }
+        });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    // 显示缺失权限提示
+    public void showMissingPermissionDialog() {
+        showPermissionDialog = true;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.basic_help);
+        builder.setMessage(R.string.basic_string_help_text);
+        // 拒绝, 退出应用
+        builder.setNegativeButton(R.string.basic_quit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton(R.string.basic_settings, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startAppSettings();
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
     }
 
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        Log.d(Logger.LOGTAG, "onPermissionsGranted:" + requestCode + ":" + perms.size() + "同意的权限是 : " + Logger.getPermissionString(perms));
+    // 启动应用的设置(去本应用的设置界面)
+    public void startAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        Log.d(Logger.LOGTAG, "onPermissionsDenied:" + requestCode + ":" + perms.size() + "拒绝的权限是 : " + Logger.getPermissionString(perms));
-        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
-        // This will display a dialog directing them to enable the permission in app settings.
-        Toast.makeText(getCurrentContext(), "请开启SD卡和联系人权限后再试", Toast.LENGTH_SHORT).show();
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this).build().show();
-        }
-    }
 }

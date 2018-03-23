@@ -20,7 +20,9 @@ ext {
             eventbus        : "3.1.1",
             loadingdialog   : "v1.0.4",
             poi:"3.16",
-            annotations:"25.3.0"
+            annotations:"25.3.0",
+            rxpermissions:"0.9.5@aar",
+            rxbinding:"2.1.1"
     ]
 
     dependencies = [
@@ -49,6 +51,12 @@ ext {
 
             // -------------poi Excel-------------
             poi:"org.apache.poi:poi:${dependVersion.poi}",
+
+            //-------------rxpermissions-------------
+            rxpermissions:"com.tbruyelle.rxpermissions2:rxpermissions:${dependVersion.rxpermissions}",
+
+            //-------------rxbinding-------------
+            rxbinding:"com.jakewharton.rxbinding2:rxbinding:${dependVersion.rxbinding}"
 
     ]
 }

@@ -29,7 +29,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/ocr-sdk.jar')
     implementation project(':ocr_ui')
-    // SQLiteToExcel
     implementation project(':sqlitetoexcel')
 
     implementation rootProject.ext.dependencies.appcompatV7
@@ -44,11 +43,13 @@ dependencies {
     compile rootProject.ext.dependencies.sqlcipher
 
     // Android 6.0权限动态申请
-    implementation rootProject.ext.dependencies.easypermissions
+    implementation rootProject.ext.dependencies.rxpermissions
+    implementation rootProject.ext.dependencies.rxbinding
 
     // EventBus
     implementation rootProject.ext.dependencies.eventbus
-
     // 进度条
     implementation rootProject.ext.dependencies.loadingdialog
+
+
 }

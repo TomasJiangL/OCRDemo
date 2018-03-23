@@ -61,6 +61,7 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        addEventBus();// 添加 EventBus
         alertDialog = new AlertDialog.Builder(this);
         controlBus.post(new OcrTokenEvent());
         // get the device DAO

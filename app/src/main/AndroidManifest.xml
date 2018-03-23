@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.resmed.liangj.ocr.MainActivity"
+            android:name="com.resmed.liangj.ocr.IndexActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.resmed.liangj.ocr.IndexActivity"
+            android:name="com.resmed.liangj.ocr.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.resmed.liangj.ocr.NeedCameraActivity"

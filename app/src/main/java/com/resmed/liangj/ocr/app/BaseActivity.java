@@ -4,21 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-
-import pub.devrel.easypermissions.EasyPermissions;
-
 /**
  * Created by LiangJ on 12/03/2018.
  */
 
-public class BaseActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class BaseActivity extends AppCompatActivity {
     private Context mContext;
     private Activity mActivity;
     public EventBus controlBus;
@@ -28,6 +23,9 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         mContext = this;
         mActivity = this;
+    }
+
+    public void addEventBus() {
         controlBus = new EventBus();
         controlBus.register(this);
     }
@@ -54,15 +52,10 @@ public class BaseActivity extends AppCompatActivity implements EasyPermissions.P
     protected void onDestroy() {
         mContext = null;
         mActivity = null;
-        controlBus.unregister(this);
+        if (controlBus != null) {
+            controlBus.unregister(this);
+        }
         super.onDestroy();
     }
 
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-    }
 }
