@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
+
 android {
+    signingConfigs {
+        release {
+            keyAlias 'baidu_ocr'
+            keyPassword '123456'
+            storeFile file('C:/LiangJ/appworkspace/OCRDemo/ocr.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
@@ -12,12 +21,45 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            // 自定义APK输出配置
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = "curative_ocr_${variant.productFlavors[0].name}_v${defaultConfig.versionName}_${releaseTime()}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
         }
     }
+    flavorDimensions "default"
+    productFlavors {
+        kuan { dimension "default" }
+        xiaomi { dimension "default" }
+        qh360 { dimension "default" }
+        baidu { dimension "default" }
+        wandoujia { dimension "default" }
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+    dexOptions {
+        jumboMode true
+    }
 }
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 //配置greenDao
 greendao {
     schemaVersion 1
@@ -35,22 +77,17 @@ dependencies {
     implementation rootProject.ext.dependencies.recyclerviewV7
     implementation rootProject.ext.dependencies.constraintLayout
     compile rootProject.ext.dependencies.gson
-
     // add library
     compile rootProject.ext.dependencies.greendao
     // This is only needed if you want to use encrypted databases
     compile rootProject.ext.dependencies.sqlcipher
-
     // Android 6.0权限动态申请
     implementation rootProject.ext.dependencies.rxpermissions
     implementation rootProject.ext.dependencies.rxbinding
-
     // EventBus
     implementation rootProject.ext.dependencies.eventbus
     // 进度条
     implementation rootProject.ext.dependencies.loadingdialog
-
     implementation rootProject.ext.dependencies.glide
     implementation rootProject.ext.dependencies.picasso
-
 }
