@@ -29,6 +29,10 @@ public class IndexActivity extends BaseActivity {
         openNewActivity(null, MainActivity.class);
     }
 
+    public void picPicker(View view){
+        openNewActivity(null, PickerDemo.class);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -35,6 +35,20 @@
         <activity
             android:name="com.resmed.liangj.ocr.MultiplePermissionActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.resmed.liangj.ocr.PickerDemo"
+            android:screenOrientation="portrait" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.resmed.liangj.ocr.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>

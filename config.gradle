@@ -10,7 +10,7 @@ ext {
     ]
 
     dependVersion = [
-            junit:"4.12",
+            junit           : "4.12",
             support         : "27.1.0",
             constraintlayout: "1.0.2",
             gson            : "2.8.2",
@@ -19,10 +19,12 @@ ext {
             easypermissions : "1.2.0",
             eventbus        : "3.1.1",
             loadingdialog   : "v1.0.4",
-            poi:"3.16",
-            annotations:"25.3.0",
-            rxpermissions:"0.9.5@aar",
-            rxbinding:"2.1.1"
+            poi             : "3.16",
+            annotations     : "25.3.0",
+            rxpermissions   : "0.9.5@aar",
+            rxbinding       : "2.1.1",
+            glide           : "3.7.0",
+            picasso         : "2.5.2"
     ]
 
     dependencies = [
@@ -30,8 +32,8 @@ ext {
             appcompatV7     : "com.android.support:appcompat-v7:${dependVersion.support}",
             recyclerviewV7  : "com.android.support:recyclerview-v7:${dependVersion.support}",
             constraintLayout: "com.android.support.constraint:constraint-layout:${dependVersion.constraintlayout}",
-            junit:"junit:junit:${dependVersion.junit}",
-            annotations:"com.android.support:support-annotations:${dependVersion.annotations}",
+            junit           : "junit:junit:${dependVersion.junit}",
+            annotations     : "com.android.support:support-annotations:${dependVersion.annotations}",
 
             // ------------- json解析 -------------
             gson            : "com.google.code.gson:gson:${dependVersion.gson}",
@@ -50,13 +52,18 @@ ext {
             loadingdialog   : "com.github.ForgetAll:LoadingDialog:${dependVersion.loadingdialog}",
 
             // -------------poi Excel-------------
-            poi:"org.apache.poi:poi:${dependVersion.poi}",
+            poi             : "org.apache.poi:poi:${dependVersion.poi}",
 
             //-------------rxpermissions-------------
-            rxpermissions:"com.tbruyelle.rxpermissions2:rxpermissions:${dependVersion.rxpermissions}",
+            rxpermissions   : "com.tbruyelle.rxpermissions2:rxpermissions:${dependVersion.rxpermissions}",
 
             //-------------rxbinding-------------
-            rxbinding:"com.jakewharton.rxbinding2:rxbinding:${dependVersion.rxbinding}"
+            rxbinding       : "com.jakewharton.rxbinding2:rxbinding:${dependVersion.rxbinding}",
+
+            // ----------图片加载----------------
+            glide           : "com.github.bumptech.glide:glide:${dependVersion.glide}",
+            picasso         : "com.squareup.picasso:picasso:${dependVersion.picasso}"
+
 
     ]
 }

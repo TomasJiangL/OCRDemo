@@ -21,4 +21,10 @@
         android:layout_height="wrap_content"
         android:onClick="greenDatabase"
         android:text="greendao 数据库测试" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="picPicker"
+        android:text="图片选择器" />
 </LinearLayout>
