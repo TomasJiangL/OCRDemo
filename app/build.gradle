@@ -35,13 +35,16 @@ dependencies {
     implementation rootProject.ext.dependencies.recyclerviewV7
     implementation rootProject.ext.dependencies.constraintLayout
     compile rootProject.ext.dependencies.gson
+
     // add library
     compile rootProject.ext.dependencies.greendao
     // This is only needed if you want to use encrypted databases
     compile rootProject.ext.dependencies.sqlcipher
+
     // Android 6.0权限动态申请
     implementation rootProject.ext.dependencies.rxpermissions
     implementation rootProject.ext.dependencies.rxbinding
+
     // EventBus
     implementation rootProject.ext.dependencies.eventbus
     // 进度条
