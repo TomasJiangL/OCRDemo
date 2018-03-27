@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation rootProject.ext.dependencies.poi
     implementation rootProject.ext.dependencies.annotations
 }

@@ -25,10 +25,9 @@ android {
 }
 
 dependencies {
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation files('libs/license.jar')
     implementation rootProject.ext.dependencies.appcompatV7
-    testCompile rootProject.ext.dependencies.junit
 }

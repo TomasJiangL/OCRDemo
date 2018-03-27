@@ -54,7 +54,9 @@ android {
     }
 
     dexOptions {
-        jumboMode true
+        jumboMode = true
+        incremental true
+        javaMaxHeapSize "2g"
     }
 }
 
@@ -71,20 +73,22 @@ greendao {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/ocr-sdk.jar')
+    implementation files('libs/ocr-sdk.jar')
     implementation project(':ocr_ui')
     implementation project(':sqlitetoexcel')
     implementation project(':matisse')
+    implementation project(':rxeasyhttp')
 
     implementation rootProject.ext.dependencies.appcompatV7
     implementation rootProject.ext.dependencies.recyclerviewV7
     implementation rootProject.ext.dependencies.constraintLayout
-    compile rootProject.ext.dependencies.gson
+
+    implementation rootProject.ext.dependencies.gson
 
     // add library
-    compile rootProject.ext.dependencies.greendao
+    implementation rootProject.ext.dependencies.greendao
     // This is only needed if you want to use encrypted databases
-    compile rootProject.ext.dependencies.sqlcipher
+    implementation rootProject.ext.dependencies.sqlcipher
 
     // Android 6.0权限动态申请
     implementation rootProject.ext.dependencies.rxpermissions
@@ -95,6 +99,8 @@ dependencies {
 
     // 进度条
     implementation rootProject.ext.dependencies.loadingdialog
+
     implementation rootProject.ext.dependencies.glide
     implementation rootProject.ext.dependencies.picasso
+
 }
