@@ -24,7 +24,8 @@ ext {
             rxpermissions   : "0.9.5@aar",
             rxbinding       : "2.1.1",
             glide           : "3.7.0",
-            picasso         : "2.5.2"
+            picasso         : "2.5.2",
+            logger          : "2.2.0"
     ]
 
     dependencies = [
@@ -62,7 +63,10 @@ ext {
 
             // ----------图片加载----------------
             glide           : "com.github.bumptech.glide:glide:${dependVersion.glide}",
-            picasso         : "com.squareup.picasso:picasso:${dependVersion.picasso}"
+            picasso         : "com.squareup.picasso:picasso:${dependVersion.picasso}",
+
+            // ----------Android 日志----------------
+            logger          : "com.orhanobut:logger:${dependVersion.logger}"
 
 
     ]

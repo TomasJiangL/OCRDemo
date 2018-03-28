@@ -29,7 +29,6 @@ import com.resmed.liangj.ocr.greendao.DaoSession;
 import com.resmed.liangj.ocr.greendao.DeviceDao;
 import com.resmed.liangj.ocr.util.FileUtil;
 import com.resmed.liangj.ocr.util.GsonUtil;
-import com.resmed.liangj.ocr.util.Logger;
 import com.resmed.liangj.ocr.util.RecognizeService;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
@@ -76,7 +75,6 @@ public class MainActivity extends BaseActivity {
         daoSession.startAsyncSession().runInTx(new Runnable() {
             @Override
             public void run() {
-                Log.d(Logger.LOGTAG, "读取数据库 ThreadName: " + Thread.currentThread().getName() + "  #  ThreadId: " + Thread.currentThread().getId());
                 // query all notes, sorted by their date
                 notesQuery = deviceDao.queryBuilder().orderAsc(DeviceDao.Properties.Date).build();
                 List<Device> devices = notesQuery.list();
@@ -110,7 +108,6 @@ public class MainActivity extends BaseActivity {
         daoSession.startAsyncSession().runInTx(new Runnable() {
             @Override
             public void run() {
-                Log.d(Logger.LOGTAG, "插入数据库 ThreadName: " + Thread.currentThread().getName() + "  #  ThreadId: " + Thread.currentThread().getId());
                 Date date = new Date();
                 DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
                 Device device = new Device();
@@ -131,7 +128,6 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onDeviceClick(int position) {
             Device device = deviceAdapter.getDevice(position);
-            Log.d(Logger.LOGTAG, device.toString());
 //            Long deviceId = device.getId();
 //            deviceDao.deleteByKey(deviceId);
 //            Log.d("DaoExample", "Deleted note, ID: " + deviceId);
@@ -141,7 +137,6 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateUIView(DataBaseEvent event) {//更新UI操作
-        Log.d(Logger.LOGTAG, "更新UI  ThreadName: " + Thread.currentThread().getName());
         if (event.getDevices() != null && event.getDevices().size() > 0) {
             deviceAdapter.setDevices(event.getDevices());
         }
@@ -164,13 +159,11 @@ public class MainActivity extends BaseActivity {
     // 导出数据库到Excel
     public void exportSqLiteToExcel() {
         String databasePath = this.getDatabasePath("devices-db").getAbsolutePath();
-        Log.d(Logger.LOGTAG, "app数据库路径: " + databasePath);
         new SQLiteToExcel.Builder(this)
                 .setDataBase(databasePath)
                 .start(new SQLiteToExcel.ExportListener() {
                     @Override
                     public void onStart() {
-                        Log.d(Logger.LOGTAG, "ExportListener onStart");
                         exportLoadingDialog = new LoadingDialog(getCurrentContext());
                         exportLoadingDialog.setLoadingText("导出中")
                                 .setSuccessText("导出成功")
@@ -184,13 +177,11 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onCompleted(String filePath) {
-                        Log.d(Logger.LOGTAG, "ExportListener onCompleted filePath : " + filePath);
                         exportLoadingDialog.loadSuccess();
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Log.d(Logger.LOGTAG, "ExportListener onError" + e.getMessage());
                         exportLoadingDialog.loadFailed();
                     }
                 });
@@ -199,13 +190,11 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void initAccessToken(OcrTokenEvent event) {
-        Log.d(Logger.LOGTAG, "初始化Token ThreadName: " + Thread.currentThread().getName() + "  #  ThreadId: " + Thread.currentThread().getId());
         OCR.getInstance().initAccessToken(new OnResultListener<AccessToken>() {
             @Override
             public void onResult(AccessToken accessToken) {
                 String token = accessToken.getAccessToken();
                 hasGotToken = true;
-                Log.d(Logger.LOGTAG, "初始化成功: token==>" + token);
             }
 
             @Override

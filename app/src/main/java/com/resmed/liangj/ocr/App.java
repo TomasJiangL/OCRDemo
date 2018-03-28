@@ -3,8 +3,11 @@ package com.resmed.liangj.ocr;
 import android.app.Application;
 import android.content.Context;
 
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 import com.resmed.liangj.ocr.greendao.DaoMaster;
 import com.resmed.liangj.ocr.greendao.DaoSession;
+import com.resmed.liangj.ocr.util.rx.RxTool;
 import com.xiasuhuei321.loadingdialog.manager.StyleManager;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 import com.zhouyou.http.EasyHttp;
@@ -42,10 +45,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+        RxTool.init(getAppContext());
         EasyHttp.init(app);// 初始化网络请求的库
         EasyHttp.getInstance().debug("EasyHttp", true);
         initGreenDao();// 初始化数据库
-        //initLoadingDialog();
+        Logger.addLogAdapter(new AndroidLogAdapter());
     }
 
     private void initGreenDao() {
@@ -54,7 +58,7 @@ public class App extends Application {
         daoSession = new DaoMaster(db).newSession();
     }
 
-    private void initLoadingDialog() {//加载dialog初始化
+    public void initLoadingDialog() {//加载dialog初始化
         StyleManager s = new StyleManager();
         //在这里调用方法设置s的属性
         //code here...

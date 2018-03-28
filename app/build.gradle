@@ -100,7 +100,11 @@ dependencies {
     // 进度条
     implementation rootProject.ext.dependencies.loadingdialog
 
+    // 图片加载库
     implementation rootProject.ext.dependencies.glide
     implementation rootProject.ext.dependencies.picasso
+
+    // 日志
+    implementation rootProject.ext.dependencies.logger
 
 }

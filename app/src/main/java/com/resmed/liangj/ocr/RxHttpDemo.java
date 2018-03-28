@@ -4,15 +4,16 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
 import com.resmed.liangj.ocr.app.BaseActivity;
 import com.resmed.liangj.ocr.bean.httpbean.AqiBean;
 import com.resmed.liangj.ocr.bean.httpbean.MyApiResult;
 import com.resmed.liangj.ocr.bean.httpbean.TrainInfo;
 import com.resmed.liangj.ocr.bean.httpbean.TvProgram;
-import com.resmed.liangj.ocr.util.Logger;
+import com.resmed.liangj.ocr.bean.httpbean.TvProgram.Program;
+import com.resmed.liangj.ocr.util.rx.RxDataTool;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.CallBackProxy;
 import com.zhouyou.http.callback.ProgressDialogCallBack;
@@ -49,12 +50,12 @@ public class RxHttpDemo extends BaseActivity {
                 .execute(new SimpleCallBack<String>() {
                     @Override
                     public void onError(ApiException e) {
-                        Log.d(Logger.LOGTAG, e.getMessage());
+
                     }
 
                     @Override
                     public void onSuccess(String response) {
-                        Log.d(Logger.LOGTAG, response);
+
                     }
                 });
     }
@@ -70,10 +71,10 @@ public class RxHttpDemo extends BaseActivity {
     };
 
     public void postHttp(View view) {
-        getAQIInfo();
+        getTrainInfo();
     }
 
-    private void getTrainInfo(){
+    private void getTrainInfo() {
         EasyHttp.post("/train/station2s")
                 .baseUrl("http://api.jisuapi.com")
                 .timeStamp(true)
@@ -91,7 +92,7 @@ public class RxHttpDemo extends BaseActivity {
                     public void onSuccess(List<TrainInfo> response) {
                         if (response != null && response.size() > 0) {
                             for (TrainInfo item : response) {
-                                Log.d(Logger.LOGTAG, item.getTrainno());
+                                Logger.d(item.getTrainno());
                             }
                         }
                     }
@@ -99,7 +100,7 @@ public class RxHttpDemo extends BaseActivity {
                 });
     }
 
-    private void getTVInfo(){
+    private void getTVInfo() {
         EasyHttp.post("/tv/query")
                 .baseUrl("http://api.jisuapi.com")
                 .timeStamp(true)
@@ -114,19 +115,24 @@ public class RxHttpDemo extends BaseActivity {
 
                     @Override
                     public void onSuccess(TvProgram response) {
-                        Log.d(Logger.LOGTAG, response.toString());
-                        List<TvProgram.Program> programList = response.getProgram();
+                        if (RxDataTool.isEmpty(response)) return;
+                        List<Program> programList = response.getProgram();
+                        if (RxDataTool.isEmpty(programList)) return;
+                        for (Program item : programList) {
+
+                        }
                     }
                 }) {
                 });
     }
 
-    private void getAQIInfo(){
+    private void getAQIInfo() {
         EasyHttp.post("/aqi/query")
                 .baseUrl("http://api.jisuapi.com")
                 .timeStamp(true)
                 .params("city", "苏州")
                 .params("appkey", "51fb98a395cdacaf")
+                .retryCount(1)
                 .execute(new CallBackProxy<MyApiResult<AqiBean>, AqiBean>(new ProgressDialogCallBack<AqiBean>(mProgressDialog) {
                     @Override
                     public void onError(ApiException e) {
@@ -135,7 +141,7 @@ public class RxHttpDemo extends BaseActivity {
 
                     @Override
                     public void onSuccess(AqiBean response) {
-                        Log.d(Logger.LOGTAG, response.toString());
+                        Logger.d(response.getPosition());
                     }
                 }) {
                 });
