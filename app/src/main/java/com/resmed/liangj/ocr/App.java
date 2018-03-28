@@ -1,11 +1,13 @@
 package com.resmed.liangj.ocr;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.resmed.liangj.ocr.greendao.DaoMaster;
 import com.resmed.liangj.ocr.greendao.DaoSession;
 import com.xiasuhuei321.loadingdialog.manager.StyleManager;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
+import com.zhouyou.http.EasyHttp;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -21,14 +23,32 @@ public class App extends Application {
 
     private DaoSession daoSession;
 
+    private static App app = null;
+
+    public static App getApplication() {
+        return app;
+    }
+
+    /**
+     * 获取Application的Context
+     **/
+    public static Context getAppContext() {
+        if (app == null)
+            return null;
+        return app.getApplicationContext();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        app = this;
+        EasyHttp.init(app);// 初始化网络请求的库
+        EasyHttp.getInstance().debug("EasyHttp", true);
+        initGreenDao();// 初始化数据库
         //initLoadingDialog();
-        initDB();
     }
 
-    private void initDB() {
+    private void initGreenDao() {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "devices-db-encrypted" : "devices-db");
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();

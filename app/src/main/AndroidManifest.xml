@@ -38,7 +38,9 @@
         <activity
             android:name="com.resmed.liangj.ocr.PickerDemo"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name="com.resmed.liangj.ocr.RxHttpDemo"
+            android:screenOrientation="portrait" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.resmed.liangj.ocr.fileprovider"

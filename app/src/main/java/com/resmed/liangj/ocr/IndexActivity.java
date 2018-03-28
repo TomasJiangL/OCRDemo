@@ -17,20 +17,24 @@ public class IndexActivity extends BaseActivity {
         setContentView(R.layout.activity_index);
     }
 
-    public void siglePermission(View view){
+    public void siglePermission(View view) {
         openNewActivity(null, NeedCameraActivity.class);
     }
 
-    public void multiplePermission(View view){
+    public void multiplePermission(View view) {
         openNewActivity(null, MultiplePermissionActivity.class);
     }
 
-    public void greenDatabase(View view){
+    public void greenDatabase(View view) {
         openNewActivity(null, MainActivity.class);
     }
 
-    public void picPicker(View view){
+    public void picPicker(View view) {
         openNewActivity(null, PickerDemo.class);
+    }
+
+    public void httpRequest(View view) {
+        openNewActivity(null, RxHttpDemo.class);
     }
 
     @Override

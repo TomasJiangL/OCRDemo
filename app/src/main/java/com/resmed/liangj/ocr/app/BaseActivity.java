@@ -7,7 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.zhouyou.http.EasyHttp;
+
 import org.greenrobot.eventbus.EventBus;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by LiangJ on 12/03/2018.
@@ -17,6 +21,7 @@ public class BaseActivity extends AppCompatActivity {
     private Context mContext;
     private Activity mActivity;
     public EventBus controlBus;
+    public Disposable mDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +59,9 @@ public class BaseActivity extends AppCompatActivity {
         mActivity = null;
         if (controlBus != null) {
             controlBus.unregister(this);
+        }
+        if (mDisposable != null) {// 取消网络请求
+            EasyHttp.cancelSubscription(mDisposable);
         }
         super.onDestroy();
     }

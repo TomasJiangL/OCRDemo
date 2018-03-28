@@ -27,4 +27,10 @@
         android:layout_height="wrap_content"
         android:onClick="picPicker"
         android:text="图片选择器" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="httpRequest"
+        android:text="Http请求库" />
 </LinearLayout>
