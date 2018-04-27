@@ -61,6 +61,7 @@ public class App extends Application {
     public void initLoadingDialog() {//加载dialog初始化
         StyleManager s = new StyleManager();
         //在这里调用方法设置s的属性
+        //code here...
         s.Anim(false).repeatTime(0).contentSize(-1).intercept(true);
         LoadingDialog.initStyle(s);
     }
