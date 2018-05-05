@@ -336,6 +336,16 @@ public class AqiBean {
         public void setMeasure(String measure) {
             this.measure = measure;
         }
+
+        @Override
+        public String toString() {
+            return "AqiinfoBean{" +
+                    "level='" + level + '\'' +
+                    ", color='" + color + '\'' +
+                    ", affect='" + affect + '\'' +
+                    ", measure='" + measure + '\'' +
+                    '}';
+        }
     }
 
     public static class PositionBean {

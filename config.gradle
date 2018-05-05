@@ -25,7 +25,7 @@ ext {
             rxbinding       : "2.1.1",
             glide           : "3.7.0",
             picasso         : "2.5.2",
-            logger          : "2.2.0"
+            viselog         : "1.1.2"
     ]
 
     dependencies = [
@@ -66,7 +66,7 @@ ext {
             picasso         : "com.squareup.picasso:picasso:${dependVersion.picasso}",
 
             // ----------Android 日志----------------
-            logger          : "com.orhanobut:logger:${dependVersion.logger}"
+            viselog         : "com.vise.xiaoyaoyou:viselog:${dependVersion.viselog}"
 
 
     ]

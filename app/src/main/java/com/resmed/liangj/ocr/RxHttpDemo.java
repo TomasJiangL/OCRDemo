@@ -6,14 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
 import com.resmed.liangj.ocr.app.BaseActivity;
 import com.resmed.liangj.ocr.bean.httpbean.AqiBean;
 import com.resmed.liangj.ocr.bean.httpbean.MyApiResult;
 import com.resmed.liangj.ocr.bean.httpbean.TrainInfo;
 import com.resmed.liangj.ocr.bean.httpbean.TvProgram;
 import com.resmed.liangj.ocr.bean.httpbean.TvProgram.Program;
+import com.resmed.liangj.ocr.http.HttpManager;
 import com.resmed.liangj.ocr.util.rx.RxDataTool;
+import com.vise.log.ViseLog;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.CallBackProxy;
 import com.zhouyou.http.callback.ProgressDialogCallBack;
@@ -71,7 +72,27 @@ public class RxHttpDemo extends BaseActivity {
     };
 
     public void postHttp(View view) {
-        getTrainInfo();
+        getAQIInfo();
+    }
+
+    private void getAQIInfo() {
+        HttpManager.post("/aqi/query")
+                .baseUrl("http://api.jisuapi.com")
+                .timeStamp(true)
+                .params("city", "苏州")
+                .params("appkey", "51fb98a395cdacaf")
+                .execute(new ProgressDialogCallBack<AqiBean>(mProgressDialog, true, true) {//这么实现是不是没有代理了
+                    @Override
+                    public void onError(ApiException e) {
+                        super.onError(e);
+
+                    }
+
+                    @Override
+                    public void onSuccess(AqiBean bean) {
+                        ViseLog.d(bean.getAqiinfo());
+                    }
+                });
     }
 
     private void getTrainInfo() {
@@ -82,7 +103,7 @@ public class RxHttpDemo extends BaseActivity {
                 .params("end", "北京")
                 .params("ishigh", "0")
                 .params("appkey", "51fb98a395cdacaf")
-                .execute(new CallBackProxy<MyApiResult<List<TrainInfo>>, List<TrainInfo>>(new ProgressDialogCallBack<List<TrainInfo>>(mProgressDialog) {
+                .execute(new CallBackProxy<MyApiResult<List<TrainInfo>>, List<TrainInfo>>(new ProgressDialogCallBack<List<TrainInfo>>(mProgressDialog, true, true) {
                     @Override
                     public void onError(ApiException e) {
                         super.onError(e);
@@ -92,7 +113,7 @@ public class RxHttpDemo extends BaseActivity {
                     public void onSuccess(List<TrainInfo> response) {
                         if (response != null && response.size() > 0) {
                             for (TrainInfo item : response) {
-                                Logger.d(item.getTrainno());
+                                ViseLog.d(item.getTrainno());
                             }
                         }
                     }
@@ -107,7 +128,7 @@ public class RxHttpDemo extends BaseActivity {
                 .params("tvid", "435")
                 .params("date", "2018-03-27")
                 .params("appkey", "51fb98a395cdacaf")
-                .execute(new CallBackProxy<MyApiResult<TvProgram>, TvProgram>(new ProgressDialogCallBack<TvProgram>(mProgressDialog) {
+                .execute(new CallBackProxy<MyApiResult<TvProgram>, TvProgram>(new ProgressDialogCallBack<TvProgram>(mProgressDialog, true, true) {
                     @Override
                     public void onError(ApiException e) {
                         super.onError(e);
@@ -118,30 +139,7 @@ public class RxHttpDemo extends BaseActivity {
                         if (RxDataTool.isEmpty(response)) return;
                         List<Program> programList = response.getProgram();
                         if (RxDataTool.isEmpty(programList)) return;
-                        for (Program item : programList) {
-
-                        }
-                    }
-                }) {
-                });
-    }
-
-    private void getAQIInfo() {
-        EasyHttp.post("/aqi/query")
-                .baseUrl("http://api.jisuapi.com")
-                .timeStamp(true)
-                .params("city", "苏州")
-                .params("appkey", "51fb98a395cdacaf")
-                .retryCount(1)
-                .execute(new CallBackProxy<MyApiResult<AqiBean>, AqiBean>(new ProgressDialogCallBack<AqiBean>(mProgressDialog) {
-                    @Override
-                    public void onError(ApiException e) {
-                        super.onError(e);
-                    }
-
-                    @Override
-                    public void onSuccess(AqiBean response) {
-                        Logger.d(response.getPosition());
+                        ViseLog.d(programList);
                     }
                 }) {
                 });

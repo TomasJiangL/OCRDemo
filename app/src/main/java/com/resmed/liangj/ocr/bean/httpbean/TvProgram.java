@@ -76,5 +76,13 @@ public class TvProgram {
         public void setStarttime(String starttime) {
             this.starttime = starttime;
         }
+
+        @Override
+        public String toString() {
+            return "Program{" +
+                    "name='" + name + '\'' +
+                    ", starttime='" + starttime + '\'' +
+                    '}';
+        }
     }
 }

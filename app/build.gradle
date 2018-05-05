@@ -105,6 +105,6 @@ dependencies {
     implementation rootProject.ext.dependencies.picasso
 
     // 日志
-    implementation rootProject.ext.dependencies.logger
+    implementation rootProject.ext.dependencies.viselog
 
 }
