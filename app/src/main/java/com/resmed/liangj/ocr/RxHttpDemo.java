@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.resmed.liangj.ocr.app.BaseActivity;
 import com.resmed.liangj.ocr.bean.httpbean.AqiBean;
+import com.resmed.liangj.ocr.bean.httpbean.CommonApiResult;
 import com.resmed.liangj.ocr.bean.httpbean.MyApiResult;
+import com.resmed.liangj.ocr.bean.httpbean.ReportBean;
 import com.resmed.liangj.ocr.bean.httpbean.TrainInfo;
 import com.resmed.liangj.ocr.bean.httpbean.TvProgram;
 import com.resmed.liangj.ocr.bean.httpbean.TvProgram.Program;
@@ -59,6 +61,7 @@ public class RxHttpDemo extends BaseActivity {
 
                     }
                 });
+        getlistRepos();
     }
 
 
@@ -95,6 +98,28 @@ public class RxHttpDemo extends BaseActivity {
                 });
     }
 
+    private void getlistRepos() {
+        EasyHttp.get("/api/data/Android/10/1")
+                .baseUrl("http://gank.io")
+                .timeStamp(true)
+                .execute(new CallBackProxy<CommonApiResult<List<ReportBean>>, List<ReportBean>>(new ProgressDialogCallBack<List<ReportBean>>(mProgressDialog, true, true) {
+                    @Override
+                    public void onError(ApiException e) {
+                        super.onError(e);
+                    }
+
+                    @Override
+                    public void onSuccess(List<ReportBean> response) {
+                        if (response != null && response.size() > 0) {
+                            for (ReportBean item : response) {
+                                ViseLog.d(item.get_id());
+                            }
+                        }
+                    }
+                }) {
+                });
+    }
+
     private void getTrainInfo() {
         EasyHttp.post("/train/station2s")
                 .baseUrl("http://api.jisuapi.com")
@@ -120,6 +145,7 @@ public class RxHttpDemo extends BaseActivity {
                 }) {
                 });
     }
+
 
     private void getTVInfo() {
         EasyHttp.post("/tv/query")
